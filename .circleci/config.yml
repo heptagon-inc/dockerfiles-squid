@@ -1,0 +1,36 @@
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build_conatiner_image
+      - push_conatiner_image:
+          requires:
+            - build_conatiner_image
+          filters:
+            branches:
+              only: master
+
+defaults: &defaults
+  working_directory: /opt
+  docker:
+    - image: docker:stable-git
+  steps:
+    - checkout
+    - setup_remote_docker
+      version: 17.11.0-ce
+    - run:
+        name: Build container image
+        command: |
+          docker build -t heptagon-inc/squid:${CIRCLE_TAG} .
+
+version: 2
+jobs:
+  build_conatiner_image:
+    <<: *defaults
+  push_container_image:
+    <<: *defaults
+    - run:
+        name: Push container image
+        command: |
+          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+          docker push heptagon-inc/squid:${CIRCLE_TAG}
