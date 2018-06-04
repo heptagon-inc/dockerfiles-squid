@@ -17,7 +17,7 @@ defaults: &defaults
   steps:
     - checkout
     - setup_remote_docker
-      version: 17.11.0-ce
+        version: 17.11.0-ce
     - run:
         name: Build container image
         command: |
@@ -29,8 +29,9 @@ jobs:
     <<: *defaults
   push_container_image:
     <<: *defaults
-    - run:
-        name: Push container image
-        command: |
-          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-          docker push heptagon-inc/squid:${CIRCLE_TAG}
+    steps:
+      - run:
+          name: Push container image
+          command: |
+            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            docker push heptagon-inc/squid:${CIRCLE_TAG}
