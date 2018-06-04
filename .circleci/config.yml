@@ -45,4 +45,5 @@ jobs:
           name: Push container image
           command: |
             docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            TAG=`git describe --tags --abbrev=0`
             docker push heptagon-inc/squid:${TAG}
