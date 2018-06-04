@@ -14,24 +14,33 @@ defaults: &defaults
   working_directory: /opt
   docker:
     - image: docker:stable-git
-  steps:
-    - checkout
-    - setup_remote_docker:
-        version: 17.11.0-ce
-        docker_layer_caching: true
-    - run:
-        name: Build container image
-        command: |
-          TAG=`git describe --tags --abbrev=0`
-          docker build -t heptagon-inc/squid:${TAG} .
 
 version: 2
 jobs:
   build_conatiner_image:
     <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 17.11.0-ce
+          docker_layer_caching: true
+      - run:
+          name: Build container image
+          command: |
+            TAG=`git describe --tags --abbrev=0`
+            docker build -t heptagon-inc/squid:${TAG} .
   push_container_image:
     <<: *defaults
     steps:
+      - checkout
+      - setup_remote_docker:
+          version: 17.11.0-ce
+          docker_layer_caching: true
+      - run:
+          name: Build container image
+          command: |
+            TAG=`git describe --tags --abbrev=0`
+            docker build -t heptagon-inc/squid:${TAG} .
       - run:
           name: Push container image
           command: |
