@@ -22,7 +22,8 @@ defaults: &defaults
     - run:
         name: Build container image
         command: |
-          docker build -t heptagon-inc/squid:${CIRCLE_TAG} .
+          TAG=`git describe --tags --abbrev=0`
+          docker build -t heptagon-inc/squid:${TAG} .
 
 version: 2
 jobs:
@@ -35,4 +36,4 @@ jobs:
           name: Push container image
           command: |
             docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-            docker push heptagon-inc/squid:${CIRCLE_TAG}
+            docker push heptagon-inc/squid:${TAG}
