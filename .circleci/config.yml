@@ -28,7 +28,7 @@ jobs:
           name: Build container image
           command: |
             TAG=`git describe --tags --abbrev=0`
-            docker build -t heptagon-inc/squid:${TAG} .
+            docker build -t heptagoninc/squid:${TAG} .
   push_container_image:
     <<: *defaults
     steps:
@@ -40,10 +40,10 @@ jobs:
           name: Build container image
           command: |
             TAG=`git describe --tags --abbrev=0`
-            docker build -t heptagon-inc/squid:${TAG} .
+            docker build -t heptagoninc/squid:${TAG} .
       - run:
           name: Push container image
           command: |
             docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
             TAG=`git describe --tags --abbrev=0`
-            docker push heptagon-inc/squid:${TAG}
+            docker push heptagoninc/squid:${TAG}
