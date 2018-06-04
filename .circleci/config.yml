@@ -3,7 +3,7 @@ workflows:
   main:
     jobs:
       - build_conatiner_image
-      - push_conatiner_image:
+      - push_container_image:
           requires:
             - build_conatiner_image
           filters:
